@@ -1,0 +1,8 @@
+{
+    "id": "portal-shortcut",
+    "name": "Portal Block Shortcuts",
+    "version": "0.0.0",
+    "description": "add block shortcuts to context menu",
+    "author": "Kirlo_s",
+    "main": "main.js"
+}
