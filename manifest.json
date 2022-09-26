@@ -1,0 +1,8 @@
+{
+    "id": "portal-shortcut",
+    "name": "Portal Shortcuts",
+    "version": "0.1.0",
+    "description": "add menu to save and load blocks",
+    "author": "Kirlo_s",
+    "main": "main.js"
+}
