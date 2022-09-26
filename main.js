@@ -47,4 +47,28 @@ const placeholder = (function () {
 })();
 
 
+const placeholder2 = (function () {
+    const errorMessage = "placeholder!";
+    const documentationUrl = "https://docs.bfportal.gg/docs/generated";
+
+    function precondition() {
+        return "enabled";
+    }
+
+    async function callback() {
+        window.open(documentationUrl, "bf2142_documentation");
+    }
+
+    return {
+        id: "pl",
+        displayText: "placeholder",
+        scopeType: _Blockly.ContextMenuRegistry.ScopeType.WORKSPACE,
+        weight: 100,
+        preconditionFn: precondition,
+        callback: callback
+    };
+})();
+
+
 _Blockly.ContextMenuRegistry.registry.register(placeholder);
+_Blockly.ContextMenuRegistry.registry.register(pl);
