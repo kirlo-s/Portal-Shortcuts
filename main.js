@@ -45,3 +45,6 @@ const placeholder = (function () {
         callback: callback
     };
 })();
+
+
+_Blockly.ContextMenuRegistry.registry.register(placeholder);
