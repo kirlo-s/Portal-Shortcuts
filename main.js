@@ -71,4 +71,4 @@ const placeholder2 = (function () {
 
 
 _Blockly.ContextMenuRegistry.registry.register(placeholder);
-_Blockly.ContextMenuRegistry.registry.register(pl);
+_Blockly.ContextMenuRegistry.registry.register(placeholder2);
