@@ -49,11 +49,10 @@ const PortalShortcut = (function() {
             return xmlText;
         }
 
-        console.log("Text");
         
         return {
             id: "registerShortcut",
-            displayText: "Register Shorcut",
+            displayText: "Register Shortcut",
             scopetype: _Blockly.ContextMenuRegistry.ScopeType.BLOCK,
             weight: 100,
             preconditionFn: precondition,
@@ -110,6 +109,7 @@ const PortalShortcut = (function() {
     
     function init(){
         _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
+        console.log("Text");
     }
 
     init();
