@@ -3,9 +3,11 @@ const PortalShortcut = (function () {
 
     const pluginName = "portal-shortcut";
     let selectedBlocks = [];
-    
+
     const registerShortcut = (function() {
         const errorMessage = "Failed to register shortcut!";
+        const nameError = "Shortcut Name is invalid!";
+
         function precondition() {
             return "enabled";
         }
@@ -23,7 +25,17 @@ const PortalShortcut = (function () {
                     xmlText += blockToXml(scope.block);
                 }
                 
-                console.log(xmlText)
+                var entryName = prompt("Enter Shortcut Name.", "");
+                if(entryName != ""){
+                    const storeData = getData();
+                    callback(storeData);
+                    var addData = {"name" : entryName, "block" : xmlText}
+                    storeData.push(addData);
+                    localStorage.setItem(pluginName,JSON.stringify(storeData));
+                    console.log(storeData);
+                }else{
+                    alert(nameError);
+                }
                 
             }
             catch(e) {
@@ -53,26 +65,15 @@ const PortalShortcut = (function () {
         };
     })();
 
-    const sh = (function() {
-        function precondition() {
-            return "enabled";
+    function getData() {
+        const storeData = localStorage.getItem(pluginName);
+    
+        if (storeData) {
+            return JSON.parse(storeData);
         }
-
-        function callback() {
-            console.log("splitscreen-right");
-        }
-
-        return {
-            id: "EditorBlockly",
-            displayText: "placeholder",
-            // eslint-disable-next-line no-undef
-            scopeType: _Blockly.ContextMenuRegistry.ScopeType.WORKSPACE,
-            weight: 99,
-            preconditionFn: precondition,
-            callback: callback
-        };
-    })();
-
+    
+        return {};
+    }
 
     function init() {
         plugin = BF2042Portal.Plugins.getPlugin(pluginName);
