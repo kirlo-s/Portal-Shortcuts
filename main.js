@@ -59,6 +59,7 @@ const PortalShortcut = (function() {
         };
     })();
 
+    /*
     const deleteShortcut = (function() {
         const errorMessage = "Failed to delete shorcut!";
 
@@ -93,7 +94,8 @@ const PortalShortcut = (function() {
         };
 
     })();
-
+    */
+   
     function getData() {
         const storeData = localStorage.getItem(pluginName);
 
