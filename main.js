@@ -45,6 +45,8 @@ const PortalShortcut = (function () {
 
 
     function init() {
+        plugin = BF2042Portal.Plugins.getPlugin(pluginName);
+        
         _Blockly.ContextMenuRegistry.registry.register(showCodeEditor);
         _Blockly.ContextMenuRegistry.registry.register(sh);
     }
