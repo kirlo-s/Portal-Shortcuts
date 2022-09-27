@@ -180,6 +180,7 @@ const PortalShortcut = (function () {
                     text: entryName,
                     enabled: true,
                     callback: function () {
+                        console.log(key)
                         delete storeData[key];
                         localStorage.setItem(pluginName,JSON.stringify(storeData));
                     }
