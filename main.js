@@ -3,7 +3,7 @@
 
     const registerShortcut = (function() {
         const errorMessage = "Failed to register shorcut!";
-        const nameError = "Shortcut Name is invalid!"
+        const nameError = "Shortcut Name is invalid!";
         function precondition(){
             return "enabled";
         }
@@ -109,7 +109,6 @@
     
     function init(){
         _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
-        console.log("Text");
     }
 
 init();
