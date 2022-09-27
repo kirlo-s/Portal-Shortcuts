@@ -6,7 +6,7 @@ const PortalShortcut = (function () {
     const contextMenuStack = [];
     let lastContextMenu = undefined;
 
-    const registerShortcut = (function() {
+    const registerShortcut = (function () {
         const errorMessage = "Failed to register shortcut!";
         const nameError = "Shortcut Name is invalid!";
 
@@ -15,7 +15,7 @@ const PortalShortcut = (function () {
         }
 
         function callback(scope) {
-            try{
+            try {
                 let xmlText = "";
 
                 if (selectedBlocks.length > 0) {
@@ -26,18 +26,18 @@ const PortalShortcut = (function () {
                 else {
                     xmlText += blockToXml(scope.block);
                 }
-                
+
                 var entryName = prompt("Enter Shortcut Name.", "");
-                if(entryName != ""){
+                if (entryName != "") {
                     var storeData = getData();
                     storeData[entryName] = xmlText;
-                    localStorage.setItem(pluginName,JSON.stringify(storeData));
-                }else{
+                    localStorage.setItem(pluginName, JSON.stringify(storeData));
+                } else {
                     alert(nameError);
                 }
-                
+
             }
-            catch(e) {
+            catch (e) {
                 BF2042Portal.Shared.logError(errorMessage, e);
 
                 alert(errorMessage);
@@ -64,64 +64,64 @@ const PortalShortcut = (function () {
         };
     })();
 
-    const addFromShorcut = (function(){
+    const addFromShorcut = (function () {
         const errorMessage = "Failed to copy to clipboard!";
         function precondition() {
             return "enabled";
         }
 
-        function callback(){
+        function callback() {
             const storeData = getData();
             const entries = [];
-            for(var key in storeData){
+            for (var key in storeData) {
                 const xmlText = storeData[key];
                 const entryName = key;
                 entries.push({
                     text: entryName,
                     enabled: true,
-                    callback: function() {
+                    callback: function () {
                         try {
                             if (!xmlText || !xmlText.startsWith("<block")) {
                                 return;
                             }
-            
+
                             const domText = `<xml xmlns="https://developers.google.com/blockly/xml">${xmlText}</xml>`;
-            
+
                             const xmlDom = _Blockly.Xml.textToDom(domText);
-            
+
                             //NOTE: Determine a bounding box
                             let minX;
                             let minY;
-            
+
                             for (let i = 0; i < xmlDom.childNodes.length; i++) {
                                 const block = xmlDom.childNodes[i];
-            
+
                                 const x = block.getAttribute("x");
                                 const y = block.getAttribute("y");
-            
+
                                 if (!minX || x < minX) {
                                     minX = x;
                                 }
-            
+
                                 if (!minY || y < minY) {
                                     minY = y;
                                 }
                             }
-            
+
                             //NOTE: Transform blocks to the minimum coords, then move them to their target position.
                             for (let i = 0; i < xmlDom.childNodes.length; i++) {
                                 const block = xmlDom.childNodes[i];
-            
+
                                 const x = block.getAttribute("x");
                                 const y = block.getAttribute("y");
-            
+
                                 if (x == minX) {
                                     block.setAttribute("x", mouseCoords.x);
                                 }
                                 else {
                                     block.setAttribute("x", (x - minX) + mouseCoords.x);
                                 }
-            
+
                                 if (y == minY) {
                                     block.setAttribute("y", mouseCoords.y);
                                 }
@@ -129,12 +129,12 @@ const PortalShortcut = (function () {
                                     block.setAttribute("y", (y - minY) + mouseCoords.y);
                                 }
                             }
-            
+
                             _Blockly.Xml.domToWorkspace(xmlDom, _Blockly.getMainWorkspace())[0];
                         }
                         catch (e) {
                             BF2042Portal.Shared.logError(errorMessage, e);
-            
+
                             alert(errorMessage);
                         }
                     }
@@ -161,15 +161,48 @@ const PortalShortcut = (function () {
 
     function getData() {
         const storeData = localStorage.getItem(pluginName);
-    
+
         if (storeData) {
             return JSON.parse(storeData);
         }
-    
+
         return {};
     }
 
-    
+    //Based on: https://groups.google.com/g/blockly/c/LXnMujtEzJY/m/FKQjI4OwAwAJ
+    function updateMouseCoords(event) {
+        const mainWorkspace = _Blockly.getMainWorkspace();
+
+        if (!mainWorkspace) {
+            return;
+        }
+
+        // Gets the x and y position of the cursor relative to the workspace's parent svg element.
+        const mouseXY = _Blockly.utils.mouseToSvg(
+            event,
+            mainWorkspace.getParentSvg(),
+            mainWorkspace.getInverseScreenCTM()
+        );
+
+        // Gets where the visible workspace starts in relation to the workspace's parent svg element.
+        const absoluteMetrics = mainWorkspace.getMetricsManager().getAbsoluteMetrics();
+
+        // In workspace coordinates 0,0 is where the visible workspace starts.
+        mouseXY.x -= absoluteMetrics.left;
+        mouseXY.y -= absoluteMetrics.top;
+
+        // Takes into account if the workspace is scrolled.
+        mouseXY.x -= mainWorkspace.scrollX;
+        mouseXY.y -= mainWorkspace.scrollY;
+
+        // Takes into account if the workspace is zoomed in or not.
+        mouseXY.x /= mainWorkspace.scale;
+        mouseXY.y /= mainWorkspace.scale;
+
+        mouseCoords.x = mouseXY.x;
+        mouseCoords.y = mouseXY.y;
+    }
+
     function showContextMenuWithBack(options) {
         contextMenuStack.push(lastContextMenu.options);
 
@@ -183,7 +216,7 @@ const PortalShortcut = (function () {
             }
         }).concat(options), lastContextMenu.rtl);
     }
-    
+
     function hookContextMenu() {
         const originalShow = _Blockly.ContextMenu.show;
 
