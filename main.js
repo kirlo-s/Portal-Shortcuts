@@ -102,5 +102,11 @@ const PortalShortcut = (function() {
         }
 
         return {};
-    }   
+    }
+    
+    function init(){
+        _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
+    }
+    
+    init();
 })();
