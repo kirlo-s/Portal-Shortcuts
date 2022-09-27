@@ -141,6 +141,7 @@ const PortalShortcut = (function () {
                     }
                 })
             }
+            console.log(entries);
             showContextMenuWithBack(entries.sort(sortByText));
         }
 
