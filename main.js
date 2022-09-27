@@ -74,8 +74,6 @@ const PortalShortcut = (function () {
             const storeData = getData();
             const entries = [];
             for(var key in storeData){
-                console.log(key);
-                console.log(storeData[key]);
                 const xmlText = storeData[key];
                 const entryName = key;
                 entries.push({
@@ -140,7 +138,7 @@ const PortalShortcut = (function () {
                             alert(errorMessage);
                         }
                     }
-                })
+                });
             }
             console.log(entries);
             showContextMenuWithBack(entries.sort(sortByText));
