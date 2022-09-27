@@ -1,4 +1,4 @@
-const PortalShortcut = (function() {
+
     const pluginName = "portal-shortcut";
 
     const registerShortcut = (function() {
@@ -112,7 +112,4 @@ const PortalShortcut = (function() {
         console.log("Text");
     }
 
-})();
-
-
-registerShortcut.init();
+init();
