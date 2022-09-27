@@ -1,74 +1,106 @@
-const placeholder = (function () {
-    const errorMessage = "Failed to copy to clipboard!";
+const PortalShortcut = (function() {
+    const pluginName = "portal-shortcut";
 
-    function precondition() {
-        return "enabled";
-    }
+    const registerShortcut = (function() {
+        const errorMessage = "Failed to register shorcut!";
+        const nameError = "Shortcut Name is invalid!"
+        function precondition(){
+            return "enabled";
+        }
 
-    async function callback(scope) {
-        try {
-            let xmlText = "";
+        async function callback(scope){
+            try {
+                let xmlText = "";
 
-            if (selectedBlocks.length > 0) {
-                for (let i = 0; i < selectedBlocks.length; i++) {
-                    xmlText += blockToXml(selectedBlocks[i]);
+                if (selectedBlocks.length > 0) {
+                    for (let i = 0; i < selectedBlocks.length; i++) {
+                        xmlText += blockToXml(selectedBlocks[i]);
+                    }
+                }
+                else {
+                    xmlText += blockToXml(scope.block);
+                }
+
+
+                var entryName = prompt("Enter Shortcut Name.","");
+                if (entryName != ""){
+                    const storeData = getData();
+                    callback(storeData);
+                    var addData = {name : entryName , block : xmlText}
+                    storeData.push(addData);
+                    localStorage.setItem(pluginName,JSON.stringify(storeData))
+                }else{
+                    alert(nameError);
                 }
             }
-            else {
-                xmlText += blockToXml(scope.block);
+            catch (e) {
+                BF2042Portal.Shared.logError(errorMessage, e);
+
+                alert(errorMessage);
             }
-
-            await navigator.clipboard.writeText(xmlText);
         }
-        catch (e) {
-            BF2042Portal.Shared.logError(errorMessage, e);
 
-            alert(errorMessage);
+        function blockToXml(block) {
+            const xmlDom = _Blockly.Xml.blockToDomWithXY(block, true);
+            _Blockly.Xml.deleteNext(xmlDom);
+
+            const xmlText = _Blockly.Xml.domToText(xmlDom).replace("xmlns=\"https://developers.google.com/blockly/xml\"", "");
+
+            return xmlText;
         }
-    }
 
-    function blockToXml(block) {
-        const xmlDom = _Blockly.Xml.blockToDomWithXY(block, true);
-        _Blockly.Xml.deleteNext(xmlDom);
+        return {
+            id: "registerShortcut",
+            displayText: "Register Shorcut",
+            scopetype: _Blockly.ContextMenuRegistry.ScopeType.BLOCK,
+            weight: 100,
+            preconditionFn: precondition,
+            callback: callback
+        };
+    })();
 
-        const xmlText = _Blockly.Xml.domToText(xmlDom).replace("xmlns=\"https://developers.google.com/blockly/xml\"", "");
+    const deleteShortcut = (function() {
+        const errorMessage = "Failed to delete shorcut!";
 
-        return xmlText;
-    }
+        function precondition(){
+            return "enabled";
+        }
 
-    return {
-        id: "placeholder",
-        displayText: "placeholder",
-        scopeType: _Blockly.ContextMenuRegistry.ScopeType.BLOCK,
-        weight: 100,
-        preconditionFn: precondition,
-        callback: callback
-    };
+        return {
+            id: "deleteShortcut",
+            displayText: "Delete Shorcut",
+            scopetype: _Blockly.ContextMenuRegistry.ScopeType.WORKSPACE,
+            weight: 100,
+            preconditionFn: precondition,
+            callback: callback
+        };
+        
+    })();
+
+    const addFromShorcut = (function(){
+
+        function precondition(){
+            return "enabled";
+        }
+
+        return {
+            id: "addFromShortcut",
+            displayText: "Add Block from Shorcut",
+            scopetype: _Blockly.ContextMenuRegistry.ScopeType.WORKSPACE,
+            weight: 100,
+            preconditionFn: precondition,
+            callback: callback
+        };
+
+    })();
+
+    function getData() {
+        const storeData = localStorage.getItem(pluginName);
+
+        if (storeData) {
+            return JSON.parse(storeData);
+        }
+
+        return {};
+    }   
 })();
-
-
-const placeholder2 = (function () {
-    const errorMessage = "placeholder!";
-    const documentationUrl = "https://docs.bfportal.gg/docs/generated";
-
-    function precondition() {
-        return "enabled";
-    }
-
-    async function callback() {
-        window.open(documentationUrl, "bf2142_documentation");
-    }
-
-    return {
-        id: "pl",
-        displayText: "placeholder",
-        scopeType: _Blockly.ContextMenuRegistry.ScopeType.WORKSPACE,
-        weight: 100,
-        preconditionFn: precondition,
-        callback: callback
-    };
-})();
-
-
-_Blockly.ContextMenuRegistry.registry.register(placeholder);
-_Blockly.ContextMenuRegistry.registry.register(placeholder2);
