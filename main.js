@@ -4,12 +4,30 @@ const PortalShortcut = (function () {
     const pluginName = "portal-shortcut";
 
     const registerShortcut = (function() {
+        const errorMessage = "Failed to register shortcut!";
         function precondition() {
             return "enabled";
         }
 
         function callback(scope) {
             console.log(scope.block);
+            try{
+                let xmlText = "";
+
+                if (selectedBlocks.length > 0) {
+                    for (let i = 0; i < selectedBlocks.length; i++) {
+                        xmlText += blockToXml(selectedBlocks[i]);
+                    }
+                }
+                else {
+                    xmlText += blockToXml(scope.block);
+                }                
+            }
+            catch(e) {
+                BF2042Portal.Shared.logError(errorMessage, e);
+
+                alert(errorMessage);
+            }
         }
 
         return {
@@ -47,7 +65,7 @@ const PortalShortcut = (function () {
     function init() {
         plugin = BF2042Portal.Plugins.getPlugin(pluginName);
         
-        _Blockly.ContextMenuRegistry.registry.register(showCodeEditor);
+        _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
         _Blockly.ContextMenuRegistry.registry.register(sh);
     }
 
