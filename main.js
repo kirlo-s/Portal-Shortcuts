@@ -9,7 +9,7 @@ const registerShortcut = (function () {
         return "enabled";
     }
 
-    function callback(scope) {
+    async function callback(scope) {
         try {
             let xmlText = "";
 
@@ -28,8 +28,8 @@ const registerShortcut = (function () {
                 const storeData = getData();
                 callback(storeData);
                 var addData = { name: entryName, block: xmlText }
-                storeData.push(addData);
-                localStorage.setItem(pluginName, JSON.stringify(storeData))
+                await storeData.push(addData);
+                await localStorage.setItem(pluginName, JSON.stringify(storeData))
             } else {
                 alert(nameError);
             }
@@ -60,6 +60,17 @@ const registerShortcut = (function () {
     };
 })();
 
+const placeholder = (function () {
+
+return {
+    id: "placeholder",
+    displayText: "placeholder",
+    scopetype: _Blockly.ContextMenuRegistry.ScopeType.BLOCK,
+    weight: 100,
+    preconditionFn: precondition,
+    callback: callback
+};
+})();
 
 /*
 const deleteShortcut = (function() {
@@ -110,7 +121,7 @@ function getData() {
 
 function init() {
     _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
-    console.log(scope)
+    _Blockly.ContextMenuRegistry.registry.register(placeholder);
 }
 
 init();
