@@ -2,6 +2,11 @@
 const PortalShortcut = (function () {
 
     const pluginName = "portal-shortcut";
+    const mouseCoords = {
+        x: 0,
+        y: 0
+    };
+
     let selectedBlocks = [];
     const contextMenuStack = [];
     let lastContextMenu = undefined;
