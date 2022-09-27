@@ -61,15 +61,22 @@ const registerShortcut = (function () {
 })();
 
 const placeholder = (function () {
+    function precondition(){
+        return "enabled";
+    }
 
-return {
-    id: "placeholder",
-    displayText: "placeholder",
-    scopetype: _Blockly.ContextMenuRegistry.ScopeType.BLOCK,
-    weight: 100,
-    preconditionFn: precondition,
-    callback: callback
-};
+    function callback(){
+
+    }
+
+    return {
+        id: "placeholder",
+        displayText: "placeholder",
+        scopetype: _Blockly.ContextMenuRegistry.ScopeType.BLOCK,
+        weight: 100,
+        preconditionFn: precondition,
+        callback: callback
+    };
 })();
 
 /*
