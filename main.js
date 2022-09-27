@@ -4,6 +4,7 @@ const PortalShortcut = (function () {
     const pluginName = "portal-shortcut";
     let selectedBlocks = [];
     const contextMenuStack = [];
+    let lastContextMenu = undefined;
 
     const registerShortcut = (function() {
         const errorMessage = "Failed to register shortcut!";
