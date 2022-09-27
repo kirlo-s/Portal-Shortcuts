@@ -3,18 +3,18 @@ const PortalShortcut = (function () {
 
     const pluginName = "portal-shortcut";
 
-    const showCodeEditor = (function() {
+    const registerShortcut = (function() {
         function precondition() {
             return "enabled";
         }
 
-        function callback() {
-            console.log("splitscreen-right");
+        function callback(scope) {
+            console.log(scope.block);
         }
 
         return {
-            id: "toggleEditorBlockly",
-            displayText: "Show Code Editor",
+            id: "registerShortcut",
+            displayText: "Register Shorcut",
             // eslint-disable-next-line no-undef
             scopeType: _Blockly.ContextMenuRegistry.ScopeType.BLOCK,
             weight: 99,
