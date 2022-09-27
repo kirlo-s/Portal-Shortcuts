@@ -174,14 +174,13 @@ const PortalShortcut = (function () {
             const storeData = getData();
             const entries = [];
             for (var key in storeData) {
-                const xmlText = storeData[key];
                 const entryName = key;
                 entries.push({
                     text: entryName,
                     enabled: true,
                     callback: function () {
-                        console.log(key)
-                        delete storeData[key];
+                        console.log(entryName)
+                        delete storeData[entryName];
                         localStorage.setItem(pluginName,JSON.stringify(storeData));
                     }
                 });
