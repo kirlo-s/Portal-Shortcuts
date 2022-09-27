@@ -69,7 +69,7 @@ const PortalShortcut = (function () {
         };
     })();
 
-    const addFromShorcut = (function () {
+    const addFromShortcut = (function () {
         const errorMessage = "Failed to copy to clipboard!";
         function precondition() {
             return "enabled";
@@ -164,6 +164,46 @@ const PortalShortcut = (function () {
         };
     })();
 
+
+    const deleteShortcut = (function(){
+        function precondition() {
+            return "enabled";
+        }
+
+        function callback() {
+            const storeData = getData();
+            const entries = [];
+            for (var key in storeData) {
+                const xmlText = storeData[key];
+                const entryName = key;
+                entries.push({
+                    text: entryName,
+                    enabled: true,
+                    callback: function () {
+                        delete storeData[key];
+                        localStorage.setItem(pluginName,JSON.stringify(storeData));
+                    }
+                });
+            }
+
+            showContextMenuWithBack(entries.sort(sortByText));
+        }
+
+        function sortByText(a, b) {
+            return a.text > b.text ? 1 : -1;
+        }
+
+        return {
+            id: "deleteShortcut",
+            displayText: "Delete Shortcut >",
+            // eslint-disable-next-line no-undef
+            scopeType: _Blockly.ContextMenuRegistry.ScopeType.WORKSPACE,
+            weight: 99,
+            preconditionFn: precondition,
+            callback: callback
+        };
+    })();
+
     function getData() {
         const storeData = localStorage.getItem(pluginName);
 
@@ -243,7 +283,8 @@ const PortalShortcut = (function () {
         hookContextMenu();
 
         _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
-        _Blockly.ContextMenuRegistry.registry.register(addFromShorcut);
+        _Blockly.ContextMenuRegistry.registry.register(addFromShortcut);
+        _Blockly.ContextMenuRegistry.registry.register(deleteShortcut);
     }
 
     init();
