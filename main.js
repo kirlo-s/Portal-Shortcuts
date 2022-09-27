@@ -170,6 +170,8 @@ const PortalShortcut = (function () {
     }
 
     function showContextMenuWithBack(options) {
+        console.log(BF2042Portal.Extensions.lastContextMenu)
+        console.log(typeof BF2042Portal.Extensions.lastContextMenu)
         lastContextMenu = BF2042Portal.Extensions.lastContextMenu;
         contextMenuStack.push(lastContextMenu.options);
 
