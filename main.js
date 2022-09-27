@@ -4,7 +4,6 @@ const PortalShortcut = (function () {
     const pluginName = "portal-shortcut";
     let selectedBlocks = [];
     const contextMenuStack = [];
-    let lastContextMenu = undefined;
 
     const registerShortcut = (function() {
         const errorMessage = "Failed to register shortcut!";
@@ -170,6 +169,7 @@ const PortalShortcut = (function () {
     }
 
     function showContextMenuWithBack(options) {
+        const lastContextMenu = BF2042Portal.Plugins.lastContextMenu;
         contextMenuStack.push(lastContextMenu.options);
 
         _Blockly.ContextMenu.show(lastContextMenu.e, [].concat({
@@ -187,7 +187,7 @@ const PortalShortcut = (function () {
     function init() {
         plugin = BF2042Portal.Plugins.getPlugin(pluginName);
         
-        
+
         _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
         _Blockly.ContextMenuRegistry.registry.register(addFromShorcut);
     }
