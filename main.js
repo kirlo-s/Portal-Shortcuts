@@ -167,6 +167,20 @@ const PortalShortcut = (function () {
         return {};
     }
 
+    function showContextMenuWithBack(options) {
+        contextMenuStack.push(lastContextMenu.options);
+
+        _Blockly.ContextMenu.show(lastContextMenu.e, [].concat({
+            text: "< Back",
+            enabled: true,
+            callback: () => {
+                const menu = contextMenuStack.splice(contextMenuStack.length - 1, 1);
+
+                _Blockly.ContextMenu.show(lastContextMenu.e, menu[0], lastContextMenu.rtl);
+            }
+        }).concat(options), lastContextMenu.rtl);
+    }
+
     function init() {
         plugin = BF2042Portal.Plugins.getPlugin(pluginName);
         
