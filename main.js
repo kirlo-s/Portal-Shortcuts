@@ -112,5 +112,7 @@ const PortalShortcut = (function() {
         console.log("Text");
     }
 
-    init();
 })();
+
+
+registerShortcut.init();
