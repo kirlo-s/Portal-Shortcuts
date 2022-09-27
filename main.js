@@ -10,7 +10,6 @@ const PortalShortcut = (function () {
         }
 
         function callback(scope) {
-            console.log(scope.block);
             try{
                 let xmlText = "";
 
@@ -23,7 +22,7 @@ const PortalShortcut = (function () {
                     xmlText += blockToXml(scope.block);
                 }
                 
-                
+                console.log(xmlText)
                 
             }
             catch(e) {
