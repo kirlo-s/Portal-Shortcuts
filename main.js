@@ -28,9 +28,7 @@ const PortalShortcut = (function () {
                 var entryName = prompt("Enter Shortcut Name.", "");
                 if(entryName != ""){
                     var storeData = getData();
-                    var addData = {"name" : entryName, "block" : xmlText}
-                    console.log(typeof storeData)
-                    storeData.push(addData);
+                    storeData[entryName] = xmlText;
                     localStorage.setItem(pluginName,JSON.stringify(storeData));
                     console.log(storeData);
                 }else{
