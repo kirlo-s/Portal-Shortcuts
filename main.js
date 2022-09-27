@@ -2,7 +2,8 @@
 const PortalShortcut = (function () {
 
     const pluginName = "portal-shortcut";
-
+    let selectedBlocks = [];
+    
     const registerShortcut = (function() {
         const errorMessage = "Failed to register shortcut!";
         function precondition() {
