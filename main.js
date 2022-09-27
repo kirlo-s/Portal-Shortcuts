@@ -183,27 +183,11 @@ const PortalShortcut = (function () {
         }).concat(options), lastContextMenu.rtl);
     }
 
-    function hookContextMenu() {
-        const originalShow = _Blockly.ContextMenu.show;
-
-        _Blockly.ContextMenu.show = (e, options, rtl) => {
-            lastContextMenu = {
-                e,
-                options,
-                rtl
-            };
-
-            updateMouseCoords(lastContextMenu.e);
-
-            return originalShow(e, options, rtl);
-        }
-    }
-
 
     function init() {
         plugin = BF2042Portal.Plugins.getPlugin(pluginName);
         
-        hookContextMenu();
+        
         _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
         _Blockly.ContextMenuRegistry.registry.register(addFromShorcut);
     }
