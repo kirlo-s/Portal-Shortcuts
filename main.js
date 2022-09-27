@@ -49,6 +49,8 @@ const PortalShortcut = (function() {
             return xmlText;
         }
 
+        console.log("Text");
+        
         return {
             id: "registerShortcut",
             displayText: "Register Shorcut",
@@ -95,7 +97,7 @@ const PortalShortcut = (function() {
 
     })();
     */
-   
+
     function getData() {
         const storeData = localStorage.getItem(pluginName);
 
