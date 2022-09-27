@@ -8,7 +8,7 @@ const PortalShortcut = (function() {
             return "enabled";
         }
 
-        async function callback(scope){
+        function callback(scope){
             try {
                 let xmlText = "";
 
@@ -107,6 +107,6 @@ const PortalShortcut = (function() {
     function init(){
         _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
     }
-    
+
     init();
 })();
