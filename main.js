@@ -169,7 +169,7 @@ const PortalShortcut = (function () {
     }
 
     function showContextMenuWithBack(options) {
-        const lastContextMenu = BF2042Portal.Plugins.lastContextMenu;
+        lastContextMenu = BF2042Portal.Extensions.lastContextMenu;
         contextMenuStack.push(lastContextMenu.options);
 
         _Blockly.ContextMenu.show(lastContextMenu.e, [].concat({
