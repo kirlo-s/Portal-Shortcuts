@@ -1,7 +1,7 @@
 
 const pluginName = "portal-shortcut";
 
-const aregisterShortcut = (function () {
+const registerShortcut = (function () {
     const errorMessage = "Failed to register shorcut!";
     const nameError = "Shortcut Name is invalid!";
 
