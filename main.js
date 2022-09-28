@@ -60,7 +60,7 @@ const PortalShortcut = (function () {
 
         return {
             id: "registerShortcut",
-            displayText: "Add to Shortcut",
+            displayText: "Add Shortcut",
             // eslint-disable-next-line no-undef
             scopeType: _Blockly.ContextMenuRegistry.ScopeType.BLOCK,
             weight: 99,
