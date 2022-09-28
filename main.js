@@ -288,7 +288,6 @@ const PortalShortcut = (function () {
 
     init();
     return {
-        debugMessage: debugMessage,
-        toggleDebug: toggleDebug
+        init: init
     };
 })();
