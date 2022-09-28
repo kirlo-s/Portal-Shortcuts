@@ -1,4 +1,3 @@
-
 const PortalShortcut = (function () {
 
     const pluginName = "portal-shortcut";
