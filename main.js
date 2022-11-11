@@ -14,11 +14,13 @@ const PortalShortcut = (function () {
             return "enabled";
         }
 
-        function callback(scope) {
+        function callback() {
             try {
                 let xmlText = "";
 
-                xmlText += plugin.getSelectedBlocks();
+                xmlText += blockToXml(plugin.getSelectedBlocks());
+
+                
 
                 var entryName = prompt("Enter Shortcut Name.", "");
                 if (entryName != "") {
