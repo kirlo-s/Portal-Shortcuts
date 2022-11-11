@@ -65,7 +65,7 @@ const PortalShortcut = (function () {
     })();
 
     const addFromShortcut = (function () {
-        const errorMessage = "Failed to copy to clipboard!";
+        const errorMessage = "Failed to add from shortcut!";
         function precondition() {
             return "enabled";
         }
@@ -114,7 +114,9 @@ const PortalShortcut = (function () {
 
                                 const x = block.getAttribute("x");
                                 const y = block.getAttribute("y");
-
+                                
+                                mouseCoords = plugin.getMouseCoords();
+    
                                 if (x == minX) {
                                     block.setAttribute("x", mouseCoords.x);
                                 }
