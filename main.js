@@ -18,14 +18,7 @@ const PortalShortcut = (function () {
             try {
                 let xmlText = "";
 
-                if (selectedBlocks.length > 0) {
-                    for (let i = 0; i < selectedBlocks.length; i++) {
-                        xmlText += blockToXml(selectedBlocks[i]);
-                    }
-                }
-                else {
-                    xmlText += blockToXml(scope.block);
-                }
+                xmlText += plugin.getSelectedBlocks();
 
                 var entryName = prompt("Enter Shortcut Name.", "");
                 if (entryName != "") {
@@ -65,7 +58,7 @@ const PortalShortcut = (function () {
     })();
 
     const addFromShortcut = (function () {
-        const errorMessage = "Failed to add from shortcut!";
+        const errorMessage = "Failed to add blocks from shortcut!";
         function precondition() {
             return "enabled";
         }
