@@ -291,7 +291,7 @@ const PortalShortcut = (function () {
             shiftKey = e.shiftKey;
         });
 
-        _Blockly.addChangeListener(function (e) {
+        _Blockly.getMainWorkspace().addChangeListener(function (e) {
             if (e.type === _Blockly.Events.CLICK || e.type === _Blockly.Events.SELECTED) {
                 if (shiftKey) {
                     if (!e.blockId) {
