@@ -291,10 +291,8 @@ const PortalShortcut = (function () {
             shiftKey = e.shiftKey;
         });
 
-        _Blockly.getMainWorkspace().addChangeListener(function (e) {
-            if (e.type === _Blockly.Events.CLICK) {
-                const workspace = _Blockly.getMainWorkspace();
-
+        _Blockly.addChangeListener(function (e) {
+            if (e.type === _Blockly.Events.CLICK || e.type === _Blockly.Events.SELECTED) {
                 if (shiftKey) {
                     if (!e.blockId) {
                         return;
@@ -316,7 +314,7 @@ const PortalShortcut = (function () {
                     }
                 }
                 else {
-                    selectedBlocks = [];
+                    selectedBlocks.length = 0;;
 
                     for (const blockID in workspace.blockDB_) {
                         workspace.blockDB_[blockID].setHighlighted(false);
