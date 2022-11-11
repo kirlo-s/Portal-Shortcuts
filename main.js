@@ -37,15 +37,6 @@ const PortalShortcut = (function () {
             }
         }
 
-        function blockToXml(block) {
-            const xmlDom = _Blockly.Xml.blockToDomWithXY(block, true);
-            _Blockly.Xml.deleteNext(xmlDom);
-
-            const xmlText = _Blockly.Xml.domToText(xmlDom).replace("xmlns=\"https://developers.google.com/blockly/xml\"", "");
-
-            return xmlText;
-        }
-
         return {
             id: "registerShortcut",
             displayText: "Add Shortcut",
@@ -224,6 +215,15 @@ const PortalShortcut = (function () {
         }
 
         return undefined;
+    }
+
+    function blockToXml(block) {
+        const xmlDom = _Blockly.Xml.blockToDomWithXY(block, true);
+        _Blockly.Xml.deleteNext(xmlDom);
+
+        const xmlText = _Blockly.Xml.domToText(xmlDom).replace("xmlns=\"https://developers.google.com/blockly/xml\"", "");
+
+        return xmlText;
     }
 
     function getData() {
