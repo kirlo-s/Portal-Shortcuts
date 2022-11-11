@@ -291,58 +291,6 @@ const PortalShortcut = (function () {
             shiftKey = e.shiftKey;
         });
 
-        _Blockly.getMainWorkspace().addChangeListener(function (e) {
-            if (e.type === _Blockly.Events.CLICK || e.type === _Blockly.Events.SELECTED) {
-                if (shiftKey) {
-                    if (!e.blockId) {
-                        return;
-                    }
-
-                    const block = workspace.blockDB_[e.blockId];
-
-                    const selectedIndex = selectedBlocks.indexOf(block);
-
-                    if (selectedIndex < 0) {
-                        selectedBlocks.push(block);
-
-                        block.setHighlighted(true);
-                    }
-                    else {
-                        selectedBlocks.splice(selectedIndex, 1);
-
-                        block.setHighlighted(false);
-                    }
-                }
-                else {
-                    selectedBlocks.length = 0;;
-
-                    for (const blockID in workspace.blockDB_) {
-                        workspace.blockDB_[blockID].setHighlighted(false);
-                    }
-                }
-            }
-            else if (e.type === _Blockly.Events.BLOCK_DRAG && !e.isStart) {
-                activeBlock = e.blockId;
-            }
-            else if (e.type === _Blockly.Events.MOVE && e.newCoordinate && e.oldCoordinate && activeBlock) {
-                const ignoreBlock = activeBlock;
-
-                activeBlock = undefined;
-
-                deltaX = e.newCoordinate.x - e.oldCoordinate.x;
-                deltaY = e.newCoordinate.y - e.oldCoordinate.y;
-
-                for (let i = 0; i < selectedBlocks.length; i++) {
-                    const block = selectedBlocks[i];
-
-                    if (block.id === ignoreBlock) {
-                        continue;
-                    }
-
-                    block.moveBy(deltaX, deltaY);
-                }
-            }
-        });
     }
 
     function init() {
