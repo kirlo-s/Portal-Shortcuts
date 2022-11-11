@@ -18,9 +18,7 @@ const PortalShortcut = (function () {
             try {
                 let xmlText = "";
 
-                xmlText += blockToXml(plugin.getSelectedBlocks());
-
-                
+                xmlText = saveXml(plugin.getSelectedBlocks());
 
                 var entryName = prompt("Enter Shortcut Name.", "");
                 if (entryName != "") {
@@ -193,6 +191,40 @@ const PortalShortcut = (function () {
             callback: callback
         };
     })();
+
+    function saveXml(blocks) {
+        const workspace = _Blockly.getMainWorkspace();
+
+        try {
+            let xmlText = "";
+
+            if (blocks && blocks.length > 0) {
+                for (let i = 0; i < blocks.length; i++) {
+                    xmlText += blockToXml(blocks[i]);
+                }
+
+                return xmlText;
+            }
+            else {
+                let xmlDom = _Blockly.Xml.workspaceToDom(workspace, true);
+
+                const variablesXml = xmlDom.querySelector("variables");
+
+                if (variablesXml) {
+                    xmlDom.removeChild(variablesXml);
+                }
+
+                return _Blockly.Xml
+                    .domToText(xmlDom)
+                    .replace("<xml xmlns=\"https://developers.google.com/blockly/xml\">", "")
+                    .replace("</xml>", "");
+            }
+        } catch (e) {
+            BF2042Portal.Shared.logError("Failed to save workspace!", e);
+        }
+
+        return undefined;
+    }
 
     function getData() {
         const storeData = localStorage.getItem(pluginName);
