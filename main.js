@@ -1,10 +1,6 @@
 const PortalShortcut = (function () {
 
     const pluginName = "portal-shortcut";
-    const mouseCoords = {
-        x: 0,
-        y: 0
-    };
 
     let selectedBlocks = [];
     const contextMenuStack = [];
@@ -144,8 +140,7 @@ const PortalShortcut = (function () {
                     }
                 });
             }
-
-            showContextMenuWithBack(entries.sort(sortByText));
+            plugin.showContextMenuWithBack(entries.sort(sortByText));
         }
 
         function sortByText(a, b) {
@@ -184,7 +179,7 @@ const PortalShortcut = (function () {
                 });
             }
 
-            showContextMenuWithBack(entries.sort(sortByText));
+            plugin.showContextMenuWithBack(entries.sort(sortByText));
         }
 
         function sortByText(a, b) {
@@ -212,91 +207,8 @@ const PortalShortcut = (function () {
         return {};
     }
 
-    //Based on: https://groups.google.com/g/blockly/c/LXnMujtEzJY/m/FKQjI4OwAwAJ
-    function updateMouseCoords(event) {
-        const mainWorkspace = _Blockly.getMainWorkspace();
-
-        if (!mainWorkspace) {
-            return;
-        }
-
-        // Gets the x and y position of the cursor relative to the workspace's parent svg element.
-        const mouseXY = _Blockly.utils.mouseToSvg(
-            event,
-            mainWorkspace.getParentSvg(),
-            mainWorkspace.getInverseScreenCTM()
-        );
-
-        // Gets where the visible workspace starts in relation to the workspace's parent svg element.
-        const absoluteMetrics = mainWorkspace.getMetricsManager().getAbsoluteMetrics();
-
-        // In workspace coordinates 0,0 is where the visible workspace starts.
-        mouseXY.x -= absoluteMetrics.left;
-        mouseXY.y -= absoluteMetrics.top;
-
-        // Takes into account if the workspace is scrolled.
-        mouseXY.x -= mainWorkspace.scrollX;
-        mouseXY.y -= mainWorkspace.scrollY;
-
-        // Takes into account if the workspace is zoomed in or not.
-        mouseXY.x /= mainWorkspace.scale;
-        mouseXY.y /= mainWorkspace.scale;
-
-        mouseCoords.x = mouseXY.x;
-        mouseCoords.y = mouseXY.y;
-    }
-
-    function showContextMenuWithBack(options) {
-        contextMenuStack.push(lastContextMenu.options);
-
-        _Blockly.ContextMenu.show(lastContextMenu.e, [].concat({
-            text: "< Back",
-            enabled: true,
-            callback: () => {
-                const menu = contextMenuStack.splice(contextMenuStack.length - 1, 1);
-
-                _Blockly.ContextMenu.show(lastContextMenu.e, menu[0], lastContextMenu.rtl);
-            }
-        }).concat(options), lastContextMenu.rtl);
-    }
-
-    function hookContextMenu() {
-        const originalShow = _Blockly.ContextMenu.show;
-
-        _Blockly.ContextMenu.show = (e, options, rtl) => {
-            lastContextMenu = {
-                e,
-                options,
-                rtl
-            };
-
-            updateMouseCoords(lastContextMenu.e);
-
-            return originalShow(e, options, rtl);
-        }
-    }
-
-    function initializeEvents() {
-        let shiftKey;
-
-        let deltaX;
-        let deltaY;
-        let activeBlock;
-
-        document.addEventListener("keydown", function (e) {
-            shiftKey = e.shiftKey;
-        });
-
-        document.addEventListener("keyup", function (e) {
-            shiftKey = e.shiftKey;
-        });
-
-    }
-
     function init() {
         plugin = BF2042Portal.Plugins.getPlugin(pluginName);
-        hookContextMenu();
-        initializeEvents();
 
         _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
         _Blockly.ContextMenuRegistry.registry.register(addFromShortcut);
