@@ -2,6 +2,7 @@ const PortalShortcut = (function () {
 
     const pluginName = "portal-shortcut";
 
+
     const registerShortcut = (function () {
         const errorMessage = "Failed to register shortcut!";
         const nameError = "Shortcut Name is invalid!";
@@ -235,9 +236,9 @@ const PortalShortcut = (function () {
     function init() {
         plugin = BF2042Portal.Plugins.getPlugin(pluginName);
 
-        plugin.registerMenu(registerShortcut);
-        plugin.registerMenu(addFromShortcut);
-        plugin.registerMenu(deleteShortcut);
+        _Blockly.ContextMenuRegistry.registry.register(registerShortcut);
+        _Blockly.ContextMenuRegistry.registry.register(addFromShortcut);
+        _Blockly.ContextMenuRegistry.registry.register(deleteShortcut);
     }
 
     init();
